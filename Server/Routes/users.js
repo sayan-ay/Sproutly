@@ -15,6 +15,7 @@ const {
   logoutController,
   signInController,
   signUpController,
+  onBoardingController,
 } = require("../Controllers/authController");
 const { profileFetcher } = require("../Controllers/profileController");
 const { loginLimiter } = require("../Middlewares/rateLimit");
@@ -28,10 +29,10 @@ router.post("/add", signUpController);
 
 // STEP 2 — Onboarding: set fullName, username, bio, profilePic
 // Then auto-sign them in and return a token
-router.post("/onboarding", upload.single("profilePic"));
+router.post("/onboarding", upload.single("profilePic"), onBoardingController);
 
 // SIGN IN
-router.post("/signin",loginLimiter, signInController);
+router.post("/signin", loginLimiter, signInController);
 
 // LOGOUT
 router.post("/logout", auth, logoutController);
