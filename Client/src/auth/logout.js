@@ -6,7 +6,7 @@ export const useLogout = () => {
   const logout = () => {
     api
       .post("/users/logout", {})
-      .then((res) => {
+      .then(() => {
         localStorage.removeItem("user-storage");
         clearUser();
       })

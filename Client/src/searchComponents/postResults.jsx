@@ -1,9 +1,7 @@
 import parse from "html-react-parser";
 import { Link } from "react-router-dom";
 import { Hash } from "lucide-react";
-
-export const extractTextFromHtml = (str) =>
-  new DOMParser().parseFromString(str, "text/html").body.innerText;
+import { extractTextFromHtml } from "../utils/stringUtils";
 
 const highlightedTexts = (post) =>
   post.highlights.map((highlight) => {

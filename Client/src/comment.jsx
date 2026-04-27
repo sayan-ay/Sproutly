@@ -42,7 +42,7 @@ export default function SingleComment({ commentArg }) {
     });
 
     try {
-      const res = await api.patch(`/reactions/comments/${comment._id}`, {
+      await api.patch(`/reactions/comments/${comment._id}`, {
         reaction,
       });
     } catch (err) {

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { api } from "../axios";
 import UserResults from "./userResults";
-import PostResults, { extractTextFromHtml } from "./postResults";
+import PostResults from "./postResults";
+import { extractTextFromHtml } from "../utils/stringUtils";
 import { Search, UserRound } from "lucide-react";
 
 export default function SearchPage() {

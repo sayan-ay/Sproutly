@@ -1,5 +1,5 @@
-const User=require('../models/user');
-const Follow=require('../models/follow');
+const User=require('../Models/user');
+const Follow=require('../Models/follow');
 
 
 module.exports.profileFetcher=async (req, res) => {
