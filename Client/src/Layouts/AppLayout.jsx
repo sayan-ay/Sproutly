@@ -16,7 +16,7 @@ export default function AppLayout() {
     api
       .post("/auth/me", {})
       .then(() => {
-        const socket = io("http://localhost:3000", { withCredentials: true });
+        const socket = io(import.meta.env.VITE_API_BASE_URL, { withCredentials: true });
         setSocket(socket);
       })
       .catch((err) => {
