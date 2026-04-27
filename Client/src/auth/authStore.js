@@ -12,8 +12,12 @@ export const useAuthStore = create(
     }),
     {
       name: "user-storage", // key in localStorage
+      version: 1,   
+      migrate: (persistedState, version) => {
+        return persistedState; 
+      },
       partialize: (state) => ({
-        // only persist userId (not functions)
+       
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),

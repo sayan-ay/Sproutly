@@ -19,7 +19,7 @@ module.exports.signInController =async (req, res) => {
         const accessToken = await user.generateAccessToken();
         return res
             .status(200)
-            .cookie("accessToken", accessToken, { httpOnly: true })
+            .cookie("accessToken", accessToken, { httpOnly: true,sameSite:"false",secure:true })
             .json({
                 accessToken,
                 message: "Login successful",
@@ -68,7 +68,7 @@ module.exports.onBoardingController =async (req, res) => {
 
         return res
             .status(200)
-            .cookie("accessToken", accessToken, { httpOnly: true })
+            .cookie("accessToken", accessToken, { httpOnly: true,sameSite:"false",secure:true    })
             .json({
                 accessToken,
                 message: "Profile setup complete",

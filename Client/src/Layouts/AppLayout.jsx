@@ -24,8 +24,10 @@ export default function AppLayout() {
           "Auth check failed:",
           err.response?.status ?? err.message,
         );
+        if( err.response?.status===401){
         logout();
         navigate("/signin");
+        }
       });
   }, []);
 
