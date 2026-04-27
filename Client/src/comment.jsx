@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ThumbsUp, ThumbsDown, CornerDownRight } from "lucide-react";
+import { ThumbsUp, ThumbsDown, CornerDownRight, Send } from "lucide-react";
 import { api } from "./axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "./auth/authStore";
@@ -174,8 +174,8 @@ export const CommentSection = ({ postId, setCommentsLoaded }) => {
           onChange={(e) => setAddedComment(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && commentAdd()}
         />
-        <button className="comment-submit-btn" onClick={commentAdd}>
-          Post
+        <button className="comment-submit-btn" onClick={commentAdd} aria-label="Post comment">
+          <Send size={18} />
         </button>
       </div>
       <div className="comment-list">

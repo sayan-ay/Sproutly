@@ -23,7 +23,7 @@ export default function Onboarding() {
     if (!userId || !fromSignup) {
       navigate("/signup", { replace: true });
     }
-  }, []);
+  }, [userId, fromSignup]);
 
   if (!userId || !fromSignup) return null;
 

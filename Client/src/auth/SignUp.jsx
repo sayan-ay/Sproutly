@@ -21,7 +21,7 @@ export default function Signup() {
 
   async function submitHandler(e) {
     e.preventDefault();
-    if (confirmPassword !== password) return alert("Passwords do not match");
+    if (confirmPassword !== password) return toast.error("Passwords do not match",{position: "bottom-right",className: "pr-5 pl-3 mr-2 mb-5",duration:2000});
     setLoading(true);
     try {
       const res = await toast.promise(
@@ -52,7 +52,7 @@ export default function Signup() {
         state: { userId: res.data.userId, fromSignup: true },
       });
     } catch (err) {
-      alert(err.response?.data?.message || err.message);
+      console.log(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
     }
