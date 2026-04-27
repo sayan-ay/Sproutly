@@ -69,7 +69,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const res = await api.get(`/comments/user/${user_id}`);
-
+      console.log(res.data.comments);
       setComments(res.data.comments);
     } catch (err) {
       setErr(err);
@@ -82,7 +82,7 @@ export default function Profile() {
     fetchUser();
     fetchComments();
     fetchPosts();
-  }, []);
+  }, [user_id]);
 
   async function followButtonHandler() {
     if (!currentUser) return navigate("/signin", { replace: true });
@@ -108,10 +108,16 @@ export default function Profile() {
     }
   }
 
-  if (err && err.response.status === 404)
+  if (err?.response?.status === 404)
     return (
       <div className="h-screen w-screen flex items-center justify-center">
         404 not found user
+      </div>
+    );
+  if (err)
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        Something went wrong. Please try again.
       </div>
     );
 
@@ -233,7 +239,7 @@ export default function Profile() {
                 </div>
                 <div className="text-center flex-1">
                   <span className="block font-bold text-xl text-stone-800">
-                    {user?.followers.length}
+                    {user?.followers?.length || 0}
                   </span>
                   <span className="text-xs font-bold text-stone-400 uppercase tracking-widest">
                     Followers
@@ -271,15 +277,21 @@ export default function Profile() {
           <div className="mt-8 space-y-6 pb-20 flex-col flex gap-1 items-center">
             {tab === "Posts" &&
               posts?.map((post) => <Post key={post._id} postArg={post} />)}
-            {tab === "Comments" &&
-              comments?.map((comment) => (
+            {tab === "Comments" && comments?.length > 0 &&
+              comments.map((comment) => (
                 <Link
                   to={`/posts/${comment.onWhichPost}#comment-${comment._id}`}
                   key={comment._id}
+                  className="w-full block bg-white rounded-xl shadow-sm border border-stone-200 p-2 sm:p-4 hover:shadow-md hover:border-stone-300 transition-all duration-200"
                 >
-                  <SingleComment comment={comment} />
+                  <SingleComment commentArg={comment} />
                 </Link>
               ))}
+            {tab === "Comments" && comments?.length === 0 && (
+              <div className="w-full bg-white rounded-xl shadow-sm border border-stone-200 p-8 text-center text-stone-500">
+                No comments yet.
+              </div>
+            )}
           </div>
         </main>
       )}

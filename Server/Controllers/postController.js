@@ -172,7 +172,6 @@ module.exports.getAllPosts = async (req, res) => {
       },
     },
   ]);
-  console.log(JSON.stringify(posts[0].bookmarks, null, 2));
 
   res.status(200).json({ posts });
 };

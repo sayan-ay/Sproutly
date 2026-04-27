@@ -42,7 +42,7 @@ export default function SingleComment({ commentArg }) {
     });
 
     try {
-      await api.patch(`/reactions/comments/${comment._id}`, {
+      await api.patch(`/reactions/comments/${comment?._id}`, {
         reaction,
       });
     } catch (err) {
@@ -53,24 +53,12 @@ export default function SingleComment({ commentArg }) {
 
   return (
     <div className="comment-card" id={comment._id}>
-      {/* Avatar + username */}
       <div className="comment-header">
         {comment.commentedBy?.profilePic ? (
           <img
             src={comment.commentedBy.profilePic}
             alt={comment.commentedBy.username}
-            style={{
-              width: "24px",
-              height: "24px",
-              minWidth: "24px",
-              minHeight: "24px",
-              maxWidth: "24px",
-              maxHeight: "24px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-              flexShrink: 0,
-            }}
+            className="w-6 h-6 min-w-6 min-h-6 max-w-6 max-h-6 rounded-full object-cover block shrink-0 "
           />
         ) : (
           <div className="comment-avatar-fallback">

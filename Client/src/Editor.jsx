@@ -23,6 +23,7 @@ const extensions = [
   StarterKit.configure({
     subscript: false,
     superscript: false,
+    underline: false,
     heading: {
       levels: [1, 2, 3, 4, 5, 6], // ← add this
     },

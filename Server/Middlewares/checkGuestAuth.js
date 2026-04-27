@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     const token = req.cookies.accessToken;
     if (!token) {
       req.user = null;
-      next();
+      return next();
     }
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const user = await User.findById(decodedToken._id).select("-password");
