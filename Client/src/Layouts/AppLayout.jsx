@@ -13,22 +13,35 @@ export default function AppLayout() {
   const setSocket = useSocketStore((state) => state.setSocket);
 
   useEffect(() => {
+    let socketInstance;
+
     api
       .post("/auth/me", {})
       .then(() => {
-        const socket = io(import.meta.env.VITE_API_BASE_URL, { withCredentials: true });
-        setSocket(socket);
+        socketInstance = io(import.meta.env.VITE_API_BASE_URL, { withCredentials: true });
+        
+        socketInstance.on("connect", () => {
+          console.log("socket connected successfully");
+        });
+
+        setSocket(socketInstance);
       })
       .catch((err) => {
         console.error(
           "Auth check failed:",
           err.response?.status ?? err.message,
         );
-        if( err.response?.status===401){
-        logout();
-        navigate("/signin");
+        if (err.response?.status === 401) {
+          logout();
+          navigate("/signin");
         }
       });
+
+    return () => {
+      if (socketInstance) {
+        socketInstance.off("connect");
+      }
+    };
   }, []);
 
   return (
