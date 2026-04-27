@@ -130,7 +130,7 @@ export const CommentSection = ({ postId, setCommentsLoaded }) => {
     if (!addedComment.trim()) return;
 
     try {
-      await toast.promise(
+      const res=await toast.promise(
         api.post(`/comments/add/${postId}`, { content: addedComment }),
         {
           loading: "Adding...",
@@ -147,6 +147,7 @@ export const CommentSection = ({ postId, setCommentsLoaded }) => {
         },
       );
 
+      setComments((prev)=>[res.data.comment,...prev]);
       setAddedComment("");
     } catch (err) {
       console.log(err.message);

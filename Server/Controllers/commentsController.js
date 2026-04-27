@@ -6,13 +6,20 @@ const mongoose = require("mongoose");
 
 module.exports.commentAddToPost = async (req, res) => {
   try {
-    const comment = await Comment.create({
-      content: req.body.content,
-      onWhichPost: req.params.postid,
-      commentedBy: req.user._id,
-    });
+    const [comment, post] = await Promise.all([
+      Comment.create({
+        content: req.body.content,
+        onWhichPost: req.params.postid,
+        commentedBy: req.user._id,
+      }),
+      Post.findById(req.params.postid).select("author").lean(),
+    ]);
 
-    const post = await Post.findById(req.params.postid).select("author");
+    // populate comment for sendin as response
+    await comment.populate({
+      path: "commentedBy",
+      select: "-email -password -bio -fullname",
+    });
 
     if (req.user._id.toString() !== post.author.toString()) {
       const notif = await Notification.create({
@@ -24,17 +31,21 @@ module.exports.commentAddToPost = async (req, res) => {
         commentId: comment._id,
       });
 
-      const payload = await Notification.findById(notif._id)
-        .populate({ path: "sender", select: "-email -password -bio -fullname" })
-        .select("-reciever")
-        .lean();
+      const payload = {
+        _id: notif._id,
+        sender: req.user,
+        notifType: "COMMENT_ON_POST",
+        targetId: req.params.postid,
+        targetType: "Post",
+        commentId: comment._id,
+        createdAt: notif.createdAt,
+      };
 
       emitToOneUser(post.author.toString(), "notification-add", payload);
     }
 
-    res.status(201).json({ message: "comment successfully added" });
+    res.status(201).json({ message: "comment successfully added", comment });
   } catch (err) {
-    console.log("Error while comment");
     res.json({ error: err.message });
   }
 };

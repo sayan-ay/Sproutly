@@ -33,7 +33,7 @@ export default function AppLayout() {
         );
         if (err.response?.status === 401) {
           logout();
-          navigate("/signin");
+          
         }
       });
 
